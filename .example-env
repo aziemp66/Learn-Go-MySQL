@@ -1,0 +1,7 @@
+DB_NAME=yourdbname
+DB_USERNAME=yourusername
+DB_PASSWORD=yourpassword
+DB_HOST=yourhost
+DB_PORT=yourdbport
+
+/* rename this folder to .env */
