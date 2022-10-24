@@ -20,5 +20,5 @@ func TestOpenConnection(t *testing.T) {
 
 	db, err := sql.Open("mysql", connectionString)
 	defer db.Close()
-	require.Nil(t, err, err)
+	require.Nil(t, err)
 }

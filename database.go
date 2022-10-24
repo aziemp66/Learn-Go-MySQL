@@ -13,7 +13,7 @@ func GetConnection() *sql.DB {
 	dbPort := goDotEnvVariable("DB_PORT")
 	dbName := goDotEnvVariable("DB_NAME")
 
-	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", dbUsername, dbPassword, dbHost, dbPort, dbName)
+	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", dbUsername, dbPassword, dbHost, dbPort, dbName)
 
 	db, err := sql.Open("mysql", connectionString)
 	if err != nil {
