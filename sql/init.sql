@@ -18,4 +18,9 @@ CREATE  TABLE IF NOT EXISTS user(
   PRIMARY KEY (username)
 )ENGINE InnoDB;
 
-INSERT INTO user(username, password) VALUES ('admin','admin')
+CREATE TABLE IF NOT EXISTS comment (
+  id INT NOT NULL AUTO_INCREMENT,
+  email VARCHAR(100) NOT NULL,
+  comment TEXT,
+  PRIMARY KEY(id)
+);

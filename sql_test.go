@@ -138,3 +138,21 @@ func TestSqlParameter(t *testing.T) {
 
 	assert.Nil(t, err)
 }
+
+func TestAutoIncrement(t *testing.T) {
+	db := GetConnection()
+	defer db.Close()
+
+	ctx := context.Background()
+
+	email := "azie@gmail.com"
+	comment := "Kece banget bang"
+
+	query := "INSERT INTO comment(email, comment) VALUES(?, ?)"
+
+	result, err := db.ExecContext(ctx, query, email, comment)
+	assert.Nil(t, err)
+	result.LastInsertId()
+
+	fmt.Println("Success Insert New Comment")
+}
