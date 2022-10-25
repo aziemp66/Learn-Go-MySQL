@@ -157,3 +157,42 @@ func TestAutoIncrement(t *testing.T) {
 
 	fmt.Println("Success Insert New Comment With Id", id)
 }
+
+func TestPrepareStatement(t *testing.T) {
+	db := GetConnection()
+	defer db.Close()
+
+	ctx := context.Background()
+
+	query := "INSERT INTO comment (email, comment) VALUES (?,?)"
+	stmt, err := db.PrepareContext(ctx, query)
+	if err != nil {
+		panic(err)
+	}
+	defer stmt.Close()
+
+	comments := []struct {
+		Email   string
+		Comment string
+	}{
+		{"azie@gmail.com", "Wadidhaihsd"},
+		{"ashiap@gmail.com", "doiadhaoihdoah"},
+		{"WadawMabar@gmail.com", "dahsiodhaoidhoaisdaodhdoihasoid"},
+		{"ultraman@gmail.com", "ioasjdsiohdoai!"},
+		{"kamenrider@gmail.com", "Shinhan!"},
+	}
+
+	for _, c := range comments {
+		result, err := stmt.ExecContext(ctx, c.Email, c.Comment)
+		if err != nil {
+			panic(err)
+		}
+
+		id, err := result.LastInsertId()
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Println("Comment Id", id)
+	}
+}
