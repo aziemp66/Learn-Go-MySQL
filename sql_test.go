@@ -196,3 +196,57 @@ func TestPrepareStatement(t *testing.T) {
 		fmt.Println("Comment Id", id)
 	}
 }
+
+func TestDatabaseTransaction(t *testing.T) {
+	db := GetConnection()
+
+	defer db.Close()
+
+	ctx := context.Background()
+
+	tx, err := db.Begin()
+
+	if err != nil {
+		panic(err)
+	}
+
+	//do transcation
+
+	query := "INSERT INTO comment (email, comment) VALUES (?,?)"
+	statement, err := tx.PrepareContext(ctx, query)
+	if err != nil {
+		panic(err)
+	}
+	defer statement.Close()
+
+	comments := []struct {
+		Email   string
+		Comment string
+	}{
+		{"azie@gmail.com", "Wadidhaihsd"},
+		{"ashiap@gmail.com", "doiadhaoihdoah"},
+		{"WadawMabar@gmail.com", "dahsiodhaoidhoaisdaodhdoihasoid"},
+		{"ultraman@gmail.com", "ioasjdsiohdoai!"},
+		{"kamenrider@gmail.com", "Shinhan!"},
+	}
+
+	for _, comment := range comments {
+		result, err := statement.ExecContext(ctx, comment.Email, comment.Comment)
+		if err != nil {
+			panic(err)
+		}
+
+		id, err := result.LastInsertId()
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println("Comment dengan id:", id)
+	}
+
+	// err = tx.Rollback()
+	err = tx.Commit()
+	if err != nil {
+		panic(err)
+	}
+
+}
