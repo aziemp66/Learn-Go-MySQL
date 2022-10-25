@@ -145,14 +145,15 @@ func TestAutoIncrement(t *testing.T) {
 
 	ctx := context.Background()
 
-	email := "azie@gmail.com"
-	comment := "Kece banget bang"
+	email := "melza@gmail.com"
+	comment := "Wadaw"
 
 	query := "INSERT INTO comment(email, comment) VALUES(?, ?)"
 
 	result, err := db.ExecContext(ctx, query, email, comment)
 	assert.Nil(t, err)
-	result.LastInsertId()
+	id, err := result.LastInsertId()
+	assert.Nil(t, err)
 
-	fmt.Println("Success Insert New Comment")
+	fmt.Println("Success Insert New Comment With Id", id)
 }
