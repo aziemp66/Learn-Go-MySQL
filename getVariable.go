@@ -1,15 +1,21 @@
 package gomysql
 
 import (
-	"github.com/joho/godotenv"
 	"log"
 	"os"
+
+	"github.com/joho/godotenv"
 )
 
 func goDotEnvVariable(key string) string {
+	//check current directory
+	dir, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
 
 	// load .env file
-	err := godotenv.Load(".env")
+	godotenv.Load(dir + "/.env")
 
 	if err != nil {
 		log.Fatalf("Error loading .env file")
